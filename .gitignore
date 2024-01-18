@@ -31,4 +31,5 @@
 *.out
 *.app
 
+# ignore the build folder
 build/
