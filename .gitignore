@@ -36,3 +36,4 @@ build/
 
 # ignore vscode folder
 .vscode
+.vscode/settings.json
