@@ -1,8 +1,41 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <__algorithm/min_element.h>
+#include <iomanip>
 // Global Variable
 bool keepRunning;
+// Order book types
+enum class OrderBookType
+{
+    bid,
+    ask
+};
+
+class OrderBookEntry
+{
+    // Constructor uses an initialisation list
+public:
+    /** Enter price, ampunt, timestamp, product, order-type*/
+    OrderBookEntry(double _price,
+                   double _amount,
+                   std::string _timestamp,
+                   std::string _product,
+                   OrderBookType _orderType)
+        : price(_price),
+          amount(_amount),
+          timestamp(_timestamp),
+          product(_product),
+          orderType(_orderType)
+    {
+    }
+    // Data members
+    double price;
+    double amount;
+    std::string timestamp;
+    std::string product;
+    OrderBookType orderType;
+};
 
 void printMenuOptions()
 {
@@ -100,35 +133,146 @@ void processUserOption(int userOption)
     }
 }
 
+double computeAveragePrice(std::vector<OrderBookEntry> &entries)
+{
+    double avg = 0.0;
+    for (OrderBookEntry &e : entries)
+    {
+        avg += e.price;
+    }
+    return avg / entries.size();
+}
+
+double computeLowPrice(std::vector<OrderBookEntry> &entries)
+{
+    auto lowestPrice = std::min_element(entries.begin(), entries.end(),
+                                        [](const OrderBookEntry &a, const OrderBookEntry &b)
+                                        {
+                                            return a.price < b.price;
+                                        });
+
+    return lowestPrice->price;
+}
+
+double computeHighPrice(std::vector<OrderBookEntry> &entries)
+{
+    auto highestPrice = std::max_element(entries.begin(), entries.end(),
+                                         [](const OrderBookEntry &a, const OrderBookEntry &b)
+                                         {
+                                             return a.price < b.price;
+                                         });
+
+    return highestPrice->price;
+}
+
+double computePriceSpread(std::vector<OrderBookEntry> &entries)
+{
+    auto highestBid = std::max_element(entries.begin(), entries.end(),
+                                       [](const OrderBookEntry &a, const OrderBookEntry &b)
+                                       {
+                                           return a.orderType == OrderBookType::bid && b.orderType == OrderBookType::bid && a.price > b.price;
+                                       });
+
+    auto lowestAsk = std::min_element(entries.begin(), entries.end(),
+                                      [](const OrderBookEntry &a, const OrderBookEntry &b)
+                                      {
+                                          return a.orderType == OrderBookType::ask && b.orderType == OrderBookType::ask && a.price < b.price;
+                                      });
+
+    return lowestAsk->price - highestBid->price;
+}
+
 int main()
 {
-    enum class OrderBookType
-    {
-        bid,
-        ask
-    };
+
     // double price = 0.0;
     // double amount = 0.0;
     // std::string timestamp{"data"};
     // std::string product{"data"};
     // OrderBookType orderType = OrderBookType::ask;
 
-    std::vector<double> prices;
-    std::vector<double> amounts;
-    std::vector<std::string> timestamps;
-    std::vector<std::string> products;
-    std::vector<OrderBookType> orderTypes;
-
+    // std::vector<double> prices;
+    // std::vector<double> amounts;
+    // std::vector<std::string> timestamps;
+    // std::vector<std::string> products;
+    // std::vector<OrderBookType> orderTypes;
 
     // Keeps the while loop running
-    keepRunning = true;
+    // keepRunning = true;
     // Loop to keep the program running
-    while (keepRunning)
+    // while (keepRunning)
+    // {
+    //     printMenuOptions();
+    //     int userOption = getUserOutput();
+    //     processUserOption(userOption);
+    // }
+    // std::cout << "The application has quit." << std::endl;
+    // return 0;
+
+    std::vector<OrderBookEntry> entries;
+    // bid
+    entries.push_back(OrderBookEntry{0.02187308,
+                                     7.44564869,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::bid});
+    // bid
+    entries.push_back(OrderBookEntry{0.02187307,
+                                     3.467434,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::bid});
+    // bid
+    entries.push_back(OrderBookEntry{0.02187305,
+                                     6.85567013,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::bid});
+    // bid
+    entries.push_back(OrderBookEntry{0.021873,
+                                     1,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::bid});
+    // ask
+    entries.push_back(OrderBookEntry{0.02189093,
+                                     9.80492203,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::ask});
+    // ask
+    entries.push_back(OrderBookEntry{0.02189094,
+                                     10.91645003,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::ask});
+    // ask
+    entries.push_back(OrderBookEntry{0.02189096,
+                                     6.85752424,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::ask});
+    // ask
+    entries.push_back(OrderBookEntry{0.02189398,
+                                     9.14003499,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::ask});
+
+    // & passes by reference
+    // iterator style
+    unsigned short count = 0;
+    for (OrderBookEntry &e : entries)
     {
-        printMenuOptions();
-        int userOption = getUserOutput();
-        processUserOption(userOption);
+        ++count;
+        std::cout << "The price of entry number " << count << " is: " << e.price << std::endl;
     }
-    std::cout << "The application has quit." << std::endl;
-    return 0;
+
+    std::cout << "The average price is " << computeAveragePrice(entries) << std::endl;
+
+    std::cout << "The lowest price is " << computeLowPrice(entries) << std::endl;
+
+    std::cout << "The highest price is " << computeHighPrice(entries) << std::endl;
+
+    std::cout << "The spread price is " << std::fixed << std::setprecision(8) << computePriceSpread(entries) << std::endl;
 }
