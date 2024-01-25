@@ -1,3 +1,5 @@
+// pre-processor directive
+#pragma once
 
 #include <string>
 // Order book types

@@ -1,5 +1,7 @@
 #include "MerkleMain.h"
 #include <iostream>
+#include <vector> 
+#include "OrderBookEntry.h"
 
 MerkleMain::MerkleMain()
 {
@@ -7,6 +9,7 @@ MerkleMain::MerkleMain()
 
 void MerkleMain::init()
 {
+    loadOrderBook();
     keepRunning = true;
     int input;
     while (keepRunning)
@@ -17,6 +20,59 @@ void MerkleMain::init()
     }
     std::cout << "The application has shutdown." << std::endl;
 }
+
+ void MerkleMain::loadOrderBook() 
+ {
+    // Pushes data to vector
+    // bid
+    entries.push_back(OrderBookEntry{0.02187308,
+                                     7.44564869,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::bid});
+    // bid
+    entries.push_back(OrderBookEntry{0.02187307,
+                                     3.467434,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::bid});
+    // bid
+    entries.push_back(OrderBookEntry{0.02187305,
+                                     6.85567013,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::bid});
+    // bid
+    entries.push_back(OrderBookEntry{0.021873,
+                                     1,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::bid});
+    // ask
+    entries.push_back(OrderBookEntry{0.02189093,
+                                     9.80492203,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::ask});
+    // ask
+    entries.push_back(OrderBookEntry{0.02189094,
+                                     10.91645003,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::ask});
+    // ask
+    entries.push_back(OrderBookEntry{0.02189096,
+                                     6.85752424,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::ask});
+    // ask
+    entries.push_back(OrderBookEntry{0.02189398,
+                                     9.14003499,
+                                     "2020/03/17 17:01:24.884492",
+                                     "ETH/BTC",
+                                     OrderBookType::ask});
+ }
 
 // Prints the menu options
 void MerkleMain::printMenuOptions()
@@ -64,7 +120,8 @@ void MerkleMain::printHelp()
 // This function iterates over the vector calculating some basic stats
 void MerkleMain::printMarketStats()
 {
-    std::cout << "MOCK MARKET STATS" << std::endl;
+    std::cout << "- - - - - MARKET STATS - - - - -" << std::endl;
+    std::cout << "The Order Book contains: " << entries.size() << " entries." << std::endl;
 }
 
 // Takes ASK

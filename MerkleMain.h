@@ -1,12 +1,22 @@
+// pre-processor directive
+#pragma once
+
+#include <vector>
+#include "OrderBookEntry.h"
 
 class MerkleMain
 {
 public:
-    bool keepRunning;
+    
     // Consructor   
     MerkleMain();
     /** Call this function to start the simulation.*/
     void init();
+private:
+    // Variable to keep menu open
+    bool keepRunning;
+    // Loads the order book data 
+    void loadOrderBook(); 
     // Prints the menu options
     void printMenuOptions();
     // Gets the users input
@@ -25,4 +35,6 @@ public:
     void goToNextTimeFrame();
     // Processes the user input option
     void processUserOption(int userOption);
+    // Collection of Order Book data.
+    std::vector<OrderBookEntry> entries;
 };
