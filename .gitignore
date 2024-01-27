@@ -37,3 +37,6 @@ build/
 # ignore vscode folder
 .vscode
 .vscode/settings.json
+
+# ignore csv files
+*.csv
