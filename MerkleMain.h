@@ -1,6 +1,5 @@
-// pre-processor directive
+// pre-processor directives
 #pragma once
-
 #include <vector>
 #include "OrderBookEntry.h"
 
