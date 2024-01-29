@@ -5,7 +5,8 @@
 enum class OrderBookType
 {
     bid,
-    ask
+    ask,
+    unknown
 };
 // OrderBookEntry class with appropriate data types to represent a the fields in a row in the data file.
 class OrderBookEntry
@@ -18,6 +19,8 @@ public:
                    std::string _timestamp,
                    std::string _product,
                    OrderBookType _orderType);
+    // helper function
+    static OrderBookType stringToOrderBookType(std::string s);               
     // Data members
     double price;
     double amount;

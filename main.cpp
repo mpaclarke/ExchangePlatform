@@ -1,11 +1,12 @@
 #include "MerkleMain.h"
+#include "CSVReader.h"
 /***
  * Main Class
  *
  */
 int main()
 {
-    MerkleMain app{}; 
+    MerkleMain app{};
     app.init();
     return 0;
 }

@@ -35,5 +35,5 @@ private:
     // Processes the user input option
     void processUserOption(int userOption);
     // Collection of Order Book data.
-    std::vector<OrderBookEntry> entries;
+    std::vector<OrderBookEntry> orders;
 };
