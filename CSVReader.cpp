@@ -47,7 +47,7 @@ std::vector<OrderBookEntry> CSVReader::readCSV(std::string csvFilename)
     }
     else
     {
-        std::cout << " CSVReader::readCSV ->Could not open file. " << std::endl;
+        std::cout << "CSVReader::readCSV ->Could not open file. " << std::endl;
     }
 
     return orders;

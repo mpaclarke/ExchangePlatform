@@ -75,7 +75,7 @@ void MerkleMain::printHelp()
 // This function iterates over the vector calculating some basic stats
 void MerkleMain::printMarketStats()
 {
-    std::cout << "- - - - - MARKET STATS - - - - -" << std::endl;
+    std::cout << "- - - - - Exchange Stats - - - - -" << std::endl;
     std::cout << "The Order Book contains: " << orders.size() << " orders." << std::endl;
 
     unsigned int asks = 0;
