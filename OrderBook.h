@@ -15,4 +15,6 @@ public:
     std::vector<OrderBookEntry> getOrders(OrderBookType type,
                                           std::string product,
                                           std::string timestamp);
+    private:
+        std::vector<OrderBookEntry> orders;
 };

@@ -10,7 +10,6 @@ MerkleMain::MerkleMain()
 
 void MerkleMain::init()
 {
-    loadOrderBook();
     keepRunning = true;
     int input;
     while (keepRunning)
@@ -20,13 +19,6 @@ void MerkleMain::init()
         processUserOption(input);
     }
     std::cout << "The application has shutdown." << std::endl;
-}
-
-void MerkleMain::loadOrderBook()
-{
-    std::cout << "MerkleMain::loadOrderBook() -> Loading order book... " << std::endl;
-    orders = CSVReader::readCSV("20200317.csv");
-    std::cout << "MerkleMain::loadOrderBook() -> Stored " << orders.size() << " orders." << std::endl;
 }
 
 // Prints the menu options
@@ -76,18 +68,26 @@ void MerkleMain::printHelp()
 void MerkleMain::printMarketStats()
 {
     std::cout << "- - - - - Exchange Stats - - - - -" << std::endl;
-    std::cout << "The Order Book contains: " << orders.size() << " orders." << std::endl;
-
-    unsigned int asks = 0;
-    unsigned int bids = 0;
-    for (OrderBookEntry &e : orders)
+    std::cout << "List of Products: " << std::endl;
+    for (std::string const &product : orderBook.getKnownProducts())
     {
-        if (e.orderType == OrderBookType::ask)
-            asks++;
-        if (e.orderType == OrderBookType::bid)
-            bids++;
+        std::cout << "Product: " << product << std::endl;
+        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
+                                                                  product, 
+                                                                  "2020/03/17 17:01:24.884492");
+        std::cout << "Number of ASKS: " << entries.size() << std::endl;;
     }
-    std::cout << "OrderBook ASKS: " << asks << " | OrderBook BIDS: " << bids << std::endl;
+
+    // unsigned int asks = 0;
+    // unsigned int bids = 0;
+    // for (OrderBookEntry &e : orders)
+    // {
+    //     if (e.orderType == OrderBookType::ask)
+    //         asks++;
+    //     if (e.orderType == OrderBookType::bid)
+    //         bids++;
+    // }
+    // std::cout << "OrderBook ASKS: " << asks << " | OrderBook BIDS: " << bids << std::endl;
     std::cout << "- - - - - - - - - - - - - - - - - " << std::endl;
 }
 

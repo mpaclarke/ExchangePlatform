@@ -2,6 +2,7 @@
 #pragma once
 #include <vector>
 #include "OrderBookEntry.h"
+#include "OrderBook.h"
 
 class MerkleMain
 {
@@ -14,8 +15,6 @@ public:
 private:
     // Variable to keep menu open
     bool keepRunning;
-    // Loads the order book data 
-    void loadOrderBook(); 
     // Prints the menu options
     void printMenuOptions();
     // Gets the users input
@@ -34,6 +33,6 @@ private:
     void goToNextTimeFrame();
     // Processes the user input option
     void processUserOption(int userOption);
-    // Collection of Order Book data.
-    std::vector<OrderBookEntry> orders;
+    // Order Book data.
+    OrderBook orderBook{"20200317.csv"};
 };
