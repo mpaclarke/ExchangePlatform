@@ -40,3 +40,6 @@ build/
 
 # ignore csv files
 *.csv
+
+# ignore txt files
+*.txt
