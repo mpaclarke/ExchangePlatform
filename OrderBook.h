@@ -15,6 +15,13 @@ public:
     std::vector<OrderBookEntry> getOrders(OrderBookType type,
                                           std::string product,
                                           std::string timestamp);
+    /** Return the highest price */
+    static double getHighPrice(std::vector<OrderBookEntry>& orders);
+    /** Return the lowest price */
+    static double getLowPrice(std::vector<OrderBookEntry>& orders);
+     /** Return the spread */
+    static double getSpread(double highestPrice, double lowestPrice); 
+    
     private:
         std::vector<OrderBookEntry> orders;
 };
