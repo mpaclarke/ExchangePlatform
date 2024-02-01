@@ -73,9 +73,13 @@ void MerkleMain::printMarketStats()
     {
         std::cout << "Product: " << product << std::endl;
         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
-                                                                  product, 
+                                                                  product,
                                                                   "2020/03/17 17:01:24.884492");
-        std::cout << "Number of ASKS: " << entries.size() << std::endl;;
+        std::cout << "\t Number of ASKS: " << entries.size() << std::endl;
+        std::cout << "\t Max ASKS: " << OrderBook::getHighPrice(entries) << std::endl;
+        std::cout << "\t Min ASKS: " << OrderBook::getLowPrice(entries) << std::endl;
+        std::cout << "\t Spread: " << OrderBook::getSpread(OrderBook::getHighPrice(entries), OrderBook::getLowPrice(entries))
+                  << std::endl;
     }
 
     // unsigned int asks = 0;

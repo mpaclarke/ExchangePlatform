@@ -10,6 +10,7 @@ CSVReader::CSVReader()
 
 std::vector<OrderBookEntry> CSVReader::readCSV(std::string csvFilename)
 {
+    std::cout << "CSVReader::readCSV -> ***** START DATA PROCESSING ***** " << std::endl;
     std::vector<OrderBookEntry> orders;
     std::ifstream csvFile{csvFilename};
     std::string line;
@@ -50,6 +51,8 @@ std::vector<OrderBookEntry> CSVReader::readCSV(std::string csvFilename)
         std::cout << "CSVReader::readCSV ->Could not open file. " << std::endl;
     }
 
+    std::cout << "CSVReader::readCSV -> ***** END DATA PROCESSING ***** " << std::endl;
+    std::cout << " " << std::endl;
     return orders;
 }
 
