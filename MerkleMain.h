@@ -33,6 +33,8 @@ private:
     void goToNextTimeFrame();
     // Processes the user input option
     void processUserOption(int userOption);
+    // Current time
+    std::string currentTime; 
     // Order Book data.
     OrderBook orderBook{"20200317.csv"};
 };

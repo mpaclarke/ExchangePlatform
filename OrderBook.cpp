@@ -58,7 +58,7 @@ double OrderBook::getHighPrice(std::vector<OrderBookEntry> &orders)
     return max;
 }
 
-double OrderBook::getLowPrice(std::vector<OrderBookEntry>& orders)
+double OrderBook::getLowPrice(std::vector<OrderBookEntry> &orders)
 {
     double min = orders[0].price;
     for (OrderBookEntry &e : orders)
@@ -72,4 +72,44 @@ double OrderBook::getLowPrice(std::vector<OrderBookEntry>& orders)
 double OrderBook::getSpread(double highestPrice, double lowestPrice)
 {
     return highestPrice - lowestPrice;
+}
+
+/** Takes in a vector of filtered orders.
+ * Returns the volume. 
+*/
+double OrderBook::getVolume(std::vector<OrderBookEntry> &orders)
+{
+    // local variable that is returned.
+    double volume = 0.0;
+    // Iterates over the input vector 
+    for (OrderBookEntry &e : orders)
+    {
+        // Sums the volume of the price and the amount 
+        volume += e.price * e.amount;
+    }
+    // returns the volume. 
+    return volume;
+}
+
+std::string OrderBook::getEarliestTime()
+{
+    return orders[0].timestamp;
+}
+
+std::string OrderBook::getNextTime(std::string timestamp)
+{
+    std::string next_timestamp = "";
+    for (const OrderBookEntry &e : orders)
+    {
+        if (e.timestamp > timestamp)
+        {
+            next_timestamp = e.timestamp;
+            break;
+        }
+    }
+    if (next_timestamp == "")
+    {
+        next_timestamp = orders[0].timestamp;
+    }
+    return next_timestamp;
 }

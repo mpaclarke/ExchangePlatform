@@ -12,6 +12,7 @@ void MerkleMain::init()
 {
     keepRunning = true;
     int input;
+    currentTime = orderBook.getEarliestTime(); 
     while (keepRunning)
     {
         printMenuOptions();
@@ -40,7 +41,9 @@ void MerkleMain::printMenuOptions()
     std::cout << "6: Continue" << std::endl;
     // 7 quit the application
     std::cout << "7: Quit" << std::endl;
-    // Prints prompt to the user
+    // Prints the current time
+    std::cout << "**** **** **** **** **** ****" << std::endl;
+    std::cout << "The current time is: " << currentTime << std::endl;
     std::cout << "**** **** **** **** **** ****" << std::endl;
 }
 
@@ -74,12 +77,13 @@ void MerkleMain::printMarketStats()
         std::cout << "Product: " << product << std::endl;
         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask,
                                                                   product,
-                                                                  "2020/03/17 17:01:24.884492");
+                                                                  currentTime);
         std::cout << "\t Number of ASKS: " << entries.size() << std::endl;
         std::cout << "\t Max ASKS: " << OrderBook::getHighPrice(entries) << std::endl;
         std::cout << "\t Min ASKS: " << OrderBook::getLowPrice(entries) << std::endl;
         std::cout << "\t Spread: " << OrderBook::getSpread(OrderBook::getHighPrice(entries), OrderBook::getLowPrice(entries))
                   << std::endl;
+        std::cout << "\t Volume: " << OrderBook::getVolume(entries) << std::endl;          
     }
 
     // unsigned int asks = 0;
@@ -117,6 +121,7 @@ void MerkleMain::printWallet()
 void MerkleMain::goToNextTimeFrame()
 {
     std::cout << "Going to next time frame" << std::endl;
+    currentTime = orderBook.getNextTime(currentTime);
 }
 
 // Processes the user input option
