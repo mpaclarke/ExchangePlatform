@@ -102,7 +102,12 @@ void MerkleMain::printMarketStats()
 // Takes ASK
 void MerkleMain::enterAsk()
 {
-    std::cout << "Make an offer..." << std::endl;
+    std::cout << "MAKE AND ASK" << std::endl;
+    std::cout << "Please enter the amount: product,price,amount; eg: ETH/BTC,200,0.5" << std::endl;
+    std::string input; 
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    std::getline(std::cin, input);
+    std::cout << "You entered: " << input << std::endl;
 }
 
 // Takes BID
