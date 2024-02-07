@@ -20,7 +20,14 @@ public:
                    std::string _product,
                    OrderBookType _orderType);
     // helper function
-    static OrderBookType stringToOrderBookType(std::string s);               
+    static OrderBookType stringToOrderBookType(std::string s);   
+
+    // comparator       
+    static bool compareByTimestamp(OrderBookEntry e1, OrderBookEntry e2) 
+    {
+        return e1.timestamp < e2.timestamp;
+    } 
+
     // Data members
     double price;
     double amount;

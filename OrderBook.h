@@ -29,7 +29,10 @@ public:
     /** Return the spread */
     static double getSpread(double highestPrice, double lowestPrice);
     /** Return the Volume of Product.*/
-    static double getVolume(std::vector<OrderBookEntry> &orders); 
+    static double getVolume(std::vector<OrderBookEntry> &orders);
+    /** Insert and order*/
+    void insertOrder(OrderBookEntry &order);
+
 private:
     std::vector<OrderBookEntry> orders;
 };

@@ -113,3 +113,33 @@ OrderBookEntry CSVReader::stringsToOrderBookEntry(std::vector<std::string> token
 
     return obe;
 }
+
+OrderBookEntry CSVReader::stringsToOrderBookEntry(std::string priceString,
+                                                  std::string amountString,
+                                                  std::string timestamp,
+                                                  std::string productString,
+                                                  OrderBookType OrderBookType)
+{
+    double price, amount;
+    try
+    {
+        price = std::stod(priceString);
+        amount = std::stod(amountString);
+    }
+    catch (const std::exception &e)
+    {
+        std::cout << "stringsToOrderBookEntry() -> BAD DATA: line number " << lineCount + 1 << std::endl;
+        std::cout << "stringsToOrderBookEntry() -> BAD FLOAT: " << priceString << std::endl;
+        std::cout << "stringsToOrderBookEntry() -> BAD FLOAT: " << amountString << std::endl;
+        throw;
+    }
+
+    OrderBookEntry obe{
+        price,
+        amount,
+        timestamp,
+        productString,
+        OrderBookType};
+
+    return obe;
+}

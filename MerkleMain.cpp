@@ -12,7 +12,7 @@ void MerkleMain::init()
 {
     keepRunning = true;
     int input;
-    currentTime = orderBook.getEarliestTime(); 
+    currentTime = orderBook.getEarliestTime();
     while (keepRunning)
     {
         printMenuOptions();
@@ -50,10 +50,20 @@ void MerkleMain::printMenuOptions()
 // Gets the users input
 int MerkleMain::getUserOption()
 {
-    int userOption;
+    int userOption = 0;
+    std::string line;
     std::cout << "Please Select an Option" << std::endl;
     std::cout << "Type in 1 - 7" << std::endl;
-    std::cin >> userOption;
+    std::getline(std::cin, line);
+    try
+    {
+        userOption = std::stoi(line);
+    }
+    catch (const std::exception &e)
+    {
+        // Uses default in switch to warn user.
+    }
+
     std::cout << "You chose " << userOption << std::endl;
     return userOption;
 }
@@ -83,7 +93,7 @@ void MerkleMain::printMarketStats()
         std::cout << "\t Min ASKS: " << OrderBook::getLowPrice(entries) << std::endl;
         std::cout << "\t Spread: " << OrderBook::getSpread(OrderBook::getHighPrice(entries), OrderBook::getLowPrice(entries))
                   << std::endl;
-        std::cout << "\t Volume: " << OrderBook::getVolume(entries) << std::endl;          
+        std::cout << "\t Volume: " << OrderBook::getVolume(entries) << std::endl;
     }
 
     // unsigned int asks = 0;
@@ -102,18 +112,71 @@ void MerkleMain::printMarketStats()
 // Takes ASK
 void MerkleMain::enterAsk()
 {
-    std::cout << "MAKE AND ASK" << std::endl;
+    std::cout << "MAKE AN ASK" << std::endl;
     std::cout << "Please enter the amount: product,price,amount; eg: ETH/BTC,200,0.5" << std::endl;
-    std::string input; 
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    std::string input;
     std::getline(std::cin, input);
-    std::cout << "You entered: " << input << std::endl;
+
+    std::vector<std::string> tokens = CSVReader::tokenise(input, ',');
+    if (tokens.size() != 3)
+    {
+        std::cout << "BAD INPUT: " << input << std::endl;
+    }
+    else
+    {
+        try
+        {
+            std::cout << "You entered: " << input << std::endl;
+            OrderBookEntry obe = CSVReader::stringsToOrderBookEntry(
+                tokens[1],
+                tokens[2],
+                currentTime,
+                tokens[0],
+                OrderBookType::ask
+            );
+            
+            orderBook.insertOrder(obe);
+        }
+        catch (const std::exception &e)
+        {
+            std::cout << "MerkleMain::enterAsk() -> BAD INPUT: " << input << std::endl;
+        }
+    }
 }
 
 // Takes BID
 void MerkleMain::enterBid()
 {
-    std::cout << "Make a bid: enter the amount you would like to bid." << std::endl;
+    std::cout << "MAKE A BID" << std::endl;
+    std::cout << "Please enter the amount: product,price,amount; eg: ETH/BTC,200,0.5" << std::endl;
+    std::string input;
+    std::getline(std::cin, input);
+
+    std::vector<std::string> tokens = CSVReader::tokenise(input, ',');
+    if (tokens.size() != 3)
+    {
+        std::cout << "BAD INPUT: " << input << std::endl;
+    }
+    else
+    {
+        try
+        {
+            std::cout << "You entered: " << input << std::endl;
+            OrderBookEntry obe = CSVReader::stringsToOrderBookEntry(
+                tokens[1],
+                tokens[2],
+                currentTime,
+                tokens[0],
+                OrderBookType::bid
+            );
+            
+            orderBook.insertOrder(obe);
+        }
+        catch (const std::exception &e)
+        {
+            std::cout << "MerkleMain::enterAsk() -> BAD INPUT: " << input << std::endl;
+        }
+    }
 }
 
 // Prints the content of the wallet
