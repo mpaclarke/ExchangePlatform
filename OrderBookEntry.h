@@ -6,7 +6,8 @@ enum class OrderBookType
 {
     bid,
     ask,
-    unknown
+    unknown,
+    sale
 };
 // OrderBookEntry class with appropriate data types to represent a the fields in a row in the data file.
 class OrderBookEntry
@@ -20,13 +21,25 @@ public:
                    std::string _product,
                    OrderBookType _orderType);
     // helper function
-    static OrderBookType stringToOrderBookType(std::string s);   
+    static OrderBookType stringToOrderBookType(std::string s);
 
-    // comparator       
-    static bool compareByTimestamp(OrderBookEntry e1, OrderBookEntry e2) 
+    // comparator
+    static bool compareByTimestamp(OrderBookEntry e1, OrderBookEntry e2)
     {
         return e1.timestamp < e2.timestamp;
-    } 
+    }
+
+    // comparator
+    static bool compareByPriceAsc(OrderBookEntry e1, OrderBookEntry e2)
+    {
+        return e1.price < e2.price;
+    }
+
+    // comparator
+    static bool compareByPriceDes(OrderBookEntry e1, OrderBookEntry e2)
+    {
+        return e1.price > e2.price;
+    }
 
     // Data members
     double price;

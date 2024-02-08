@@ -32,6 +32,9 @@ public:
     static double getVolume(std::vector<OrderBookEntry> &orders);
     /** Insert and order*/
     void insertOrder(OrderBookEntry &order);
+    /** Matching */
+    std::vector<OrderBookEntry> matchAsksToBids(std::string product, std::string timestamp);
+
 
 private:
     std::vector<OrderBookEntry> orders;

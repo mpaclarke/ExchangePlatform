@@ -36,5 +36,5 @@ private:
     // Current time
     std::string currentTime; 
     // Order Book data.
-    OrderBook orderBook{"20200317.csv"};
+    OrderBook orderBook{"test.csv"};
 };

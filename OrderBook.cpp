@@ -75,19 +75,19 @@ double OrderBook::getSpread(double highestPrice, double lowestPrice)
 }
 
 /** Takes in a vector of filtered orders.
- * Returns the volume. 
-*/
+ * Returns the volume.
+ */
 double OrderBook::getVolume(std::vector<OrderBookEntry> &orders)
 {
     // local variable that is returned.
     double volume = 0.0;
-    // Iterates over the input vector 
+    // Iterates over the input vector
     for (OrderBookEntry &e : orders)
     {
-        // Sums the volume of the price and the amount 
+        // Sums the volume of the price and the amount
         volume += e.price * e.amount;
     }
-    // returns the volume. 
+    // returns the volume.
     return volume;
 }
 
@@ -114,8 +114,67 @@ std::string OrderBook::getNextTime(std::string timestamp)
     return next_timestamp;
 }
 
-void OrderBook::insertOrder(OrderBookEntry &order) 
+void OrderBook::insertOrder(OrderBookEntry &order)
 {
-    orders.push_back(order); 
+    orders.push_back(order);
     std::sort(orders.begin(), orders.end(), OrderBookEntry::compareByTimestamp);
+}
+
+std::vector<OrderBookEntry> OrderBook::matchAsksToBids(std::string product, std::string timestamp)
+{
+    std::vector<OrderBookEntry> asks = getOrders(OrderBookType::ask,
+                                                 product,
+                                                 timestamp);
+
+    std::vector<OrderBookEntry> bids = getOrders(OrderBookType::bid,
+                                                 product,
+                                                 timestamp);
+    // Store the sales
+    std::vector<OrderBookEntry> sales;
+    // Sort the asks
+    std::sort(asks.begin(), asks.end(), OrderBookEntry::compareByPriceAsc);
+    // Sort the bids
+    std::sort(bids.begin(), bids.end(), OrderBookEntry::compareByPriceDes);
+    // iterate over the asks
+    for (OrderBookEntry &ask : asks)
+    {
+        // iterate over the bids
+        for (OrderBookEntry &bid : bids)
+        {
+            if (bid.price >= ask.price)
+            {
+                OrderBookEntry sale{ask.price,
+                                    0,
+                                    timestamp,
+                                    product,
+                                    OrderBookType::sale};
+                if (bid.amount == ask.amount)
+                {
+                    // do something...
+                    sale.amount = ask.amount;
+                    sales.push_back(sale);
+                    bid.amount = 0;
+                    break;
+                }
+                if (bid.amount > ask.amount)
+                {
+                    // do something...
+                    sale.amount = ask.amount;
+                    sales.push_back(sale);
+                    bid.amount = bid.amount - ask.amount;
+                    break;
+                }
+                if (bid.amount < ask.amount)
+                {
+                    // do something...
+                    sale.amount = bid.amount;
+                    sales.push_back(sale);
+                    ask.amount = ask.amount - bid.amount;
+                    bid.amount = 0;
+                    continue;
+                }
+            }
+        }
+    }
+    return sales;
 }
