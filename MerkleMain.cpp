@@ -13,6 +13,9 @@ void MerkleMain::init()
     keepRunning = true;
     int input;
     currentTime = orderBook.getEarliestTime();
+
+    wallet.insertCurrency("BTC", 10);
+
     while (keepRunning)
     {
         printMenuOptions();
@@ -182,7 +185,8 @@ void MerkleMain::enterBid()
 // Prints the content of the wallet
 void MerkleMain::printWallet()
 {
-    std::cout << "WALLET: EMPTY" << std::endl;
+
+    std::cout << "WALLET: " << wallet.toString() << std::endl;
 }
 
 // Calls the next time frame
