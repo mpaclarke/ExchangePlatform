@@ -135,10 +135,16 @@ void MerkleMain::enterAsk()
                 tokens[2],
                 currentTime,
                 tokens[0],
-                OrderBookType::ask
-            );
-            
-            orderBook.insertOrder(obe);
+                OrderBookType::ask);
+            if (wallet.canFulfillOrder(obe))
+            {
+                std::cout << "Your Wallet has sufficient funds." << std::endl;
+                orderBook.insertOrder(obe);
+            }
+            else
+            {
+                std::cout << "Your Wallet has insufficient funds." << std::endl;
+            }
         }
         catch (const std::exception &e)
         {
@@ -150,7 +156,7 @@ void MerkleMain::enterAsk()
 // Takes BID
 void MerkleMain::enterBid()
 {
-    std::cout << "MAKE A BID" << std::endl;
+    std::cout << "MAKE A BID!" << std::endl;
     std::cout << "Please enter the amount: product,price,amount; eg: ETH/BTC,200,0.5" << std::endl;
     std::string input;
     std::getline(std::cin, input);
@@ -170,14 +176,20 @@ void MerkleMain::enterBid()
                 tokens[2],
                 currentTime,
                 tokens[0],
-                OrderBookType::bid
-            );
-            
-            orderBook.insertOrder(obe);
+                OrderBookType::bid);
+            if (wallet.canFulfillOrder(obe))
+            {
+                std::cout << "Your Wallet has sufficient funds." << std::endl;
+                orderBook.insertOrder(obe);
+            }
+            else
+            {
+                std::cout << "Your Wallet has insufficient funds." << std::endl;
+            }
         }
         catch (const std::exception &e)
         {
-            std::cout << "MerkleMain::enterAsk() -> BAD INPUT: " << input << std::endl;
+            std::cout << "MerkleMain::enterBid() -> BAD INPUT: " << input << std::endl;
         }
     }
 }
@@ -194,10 +206,10 @@ void MerkleMain::goToNextTimeFrame()
 {
     std::cout << "Going to next time frame" << std::endl;
     std::vector<OrderBookEntry> sales = orderBook.matchAsksToBids("ETH/BTC", currentTime);
-    std::cout << "Sales: " << sales.size()  << std::endl;
-    for (OrderBookEntry& sale : sales)
+    std::cout << "Sales: " << sales.size() << std::endl;
+    for (OrderBookEntry &sale : sales)
     {
-        std::cout << "Sale price: " << sale.price <<  " | Sale amount: " << sale.amount << std::endl;
+        std::cout << "Sale price: " << sale.price << " | Sale amount: " << sale.amount << std::endl;
     }
     currentTime = orderBook.getNextTime(currentTime);
 }
