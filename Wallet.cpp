@@ -6,6 +6,12 @@ Wallet::Wallet()
 {
 }
 
+std::ostream &operator<<(std::ostream &os, Wallet &wallet)
+{
+    os << wallet.toString();
+    return os;
+}
+
 /** insert currency into the wallet */
 void Wallet::insertCurrency(std::string type, double amount)
 {
@@ -32,7 +38,7 @@ bool Wallet::removeCurrency(std::string type, double amount)
     double balance;
     if (amount < 0)
     {
-        return false;
+        throw std::exception{};
     }
     if (currencies.count(type) == 0)
     {

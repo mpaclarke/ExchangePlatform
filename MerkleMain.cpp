@@ -98,17 +98,6 @@ void MerkleMain::printMarketStats()
                   << std::endl;
         std::cout << "\t Volume: " << OrderBook::getVolume(entries) << std::endl;
     }
-
-    // unsigned int asks = 0;
-    // unsigned int bids = 0;
-    // for (OrderBookEntry &e : orders)
-    // {
-    //     if (e.orderType == OrderBookType::ask)
-    //         asks++;
-    //     if (e.orderType == OrderBookType::bid)
-    //         bids++;
-    // }
-    // std::cout << "OrderBook ASKS: " << asks << " | OrderBook BIDS: " << bids << std::endl;
     std::cout << "- - - - - - - - - - - - - - - - - " << std::endl;
 }
 
@@ -197,8 +186,7 @@ void MerkleMain::enterBid()
 // Prints the content of the wallet
 void MerkleMain::printWallet()
 {
-
-    std::cout << "WALLET: " << wallet.toString() << std::endl;
+    std::cout << "WALLET: " << wallet << std::endl;
 }
 
 // Calls the next time frame
