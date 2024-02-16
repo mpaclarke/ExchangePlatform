@@ -125,6 +125,7 @@ void MerkleMain::enterAsk()
                 currentTime,
                 tokens[0],
                 OrderBookType::ask);
+            obe.username = "simuser";
             if (wallet.canFulfillOrder(obe))
             {
                 std::cout << "Your Wallet has sufficient funds." << std::endl;
@@ -166,6 +167,8 @@ void MerkleMain::enterBid()
                 currentTime,
                 tokens[0],
                 OrderBookType::bid);
+            obe.username = "simuser";
+
             if (wallet.canFulfillOrder(obe))
             {
                 std::cout << "Your Wallet has sufficient funds." << std::endl;
@@ -198,6 +201,11 @@ void MerkleMain::goToNextTimeFrame()
     for (OrderBookEntry &sale : sales)
     {
         std::cout << "Sale price: " << sale.price << " | Sale amount: " << sale.amount << std::endl;
+        if (sale.username == "simuser")
+        {
+            // update the wallet
+            wallet.processSale(sale);
+        }
     }
     currentTime = orderBook.getNextTime(currentTime);
 }
